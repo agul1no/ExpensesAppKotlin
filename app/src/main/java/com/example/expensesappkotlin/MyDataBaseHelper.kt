@@ -1,5 +1,6 @@
 package com.example.expensesappkotlin
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
@@ -31,8 +32,19 @@ class MyDataBaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NA
         db!!.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME)
         onCreate(db)
     }
+
+    fun addExpense(expense: ExpenseModel): Long {
+        val db = this.writableDatabase
+
+        val contentValues = ContentValues()
+        contentValues.put(EXPENSE_NAME, expense.name)
+        contentValues.put(EXPENSE_AMOUNT, expense.amount)
+        contentValues.put(EXPENSE_COMMENT, expense.comment)
+        contentValues.put(EXPENSE_DATE, expense.date)
+
+        val success = db.insert(TABLE_NAME,null,contentValues)
+        db.close()
+        return success
+    }
 }
 
-fun addExpense(){
-
-}

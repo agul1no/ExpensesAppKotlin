@@ -30,7 +30,9 @@ class ItemAdapter (val context: Context, val expenses: ArrayList<ExpenseModel>) 
         //val item = expenses.get(position)
         //holder.tv_name.text = item
 
-        //holder.tv_name.text = expenses[position].toString(),
+        //holder.tv_name.text = expenses[position].toString()
+        holder.tv_name.text = expense1.name
+        holder.tv_amount.text = expense1.amount.toString()
 
     }
 

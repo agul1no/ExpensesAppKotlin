@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 
+val expenses = ArrayList<ExpenseModel>()
+var expense1 = ExpenseModel(1,"Netto", 8.3,"Comment","Feb/22")
+
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,8 +23,6 @@ class MainActivity : AppCompatActivity() {
         var arrayAdapter = ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item,spinnerList)
         spinner.adapter = arrayAdapter
 
-        val expenses = ArrayList<ExpenseModel>()
-        var expense1 = ExpenseModel(1,"Netto", 8.3,"Comment","Feb/22")
         expenses.add(expense1)
 
         val adapter = ItemAdapter(this, expenses)
