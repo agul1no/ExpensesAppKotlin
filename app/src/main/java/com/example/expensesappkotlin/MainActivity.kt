@@ -1,12 +1,21 @@
 package com.example.expensesappkotlin
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AnimationUtils
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.expensesappkotlin.databinding.ActivityMainBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
+
+private lateinit var binding: ActivityMainBinding
 
 val expenses = ArrayList<ExpenseModel>()
 var expense1 = ExpenseModel(1,"Netto", 8.3,"Comment","Feb/22")
@@ -14,14 +23,41 @@ var expense1 = ExpenseModel(1,"Netto", 8.3,"Comment","Feb/22")
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
+        /** Defining the views **/
+        //val fab: FloatingActionButton = findViewById(R.id.fab)
         val spinner: Spinner = findViewById(R.id.spinner)
         val rvExpenses: RecyclerView = findViewById(R.id.rvExpenses)
 
+        /** Creating and setting Data for the spinner and spinnerAdapter **/
         var spinnerList = creatingDataForTheSpinner()
         var arrayAdapter = ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item,spinnerList)
         spinner.adapter = arrayAdapter
+
+        /** Creating animation für floating action button **/
+
+        val animation = AnimationUtils.loadAnimation(this, R.anim.circle_explosion_anim).apply {
+            duration = 900
+            interpolator = AccelerateDecelerateInterpolator()
+        }
+
+        binding.fab.setOnClickListener {
+            binding.fab.isVisible = false
+            binding.circle.isVisible = true
+            binding.circle.startAnimation(animation) {
+                binding.root.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500))
+                binding.circle.isVisible = false
+                binding.progressBar.isVisible = false
+                binding.tvZero.isVisible = false
+                binding.tvMaxAmount.isVisible = false
+                binding.spinner.isVisible = false
+                binding.rvExpenses.isVisible = false
+                intent = Intent(this, AddActivity::class.java)
+                startActivity(intent)
+            }
+        }
 
         expenses.add(expense1)
 
