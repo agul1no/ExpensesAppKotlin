@@ -3,4 +3,6 @@
     <string name="MainActivity_name">Expenses Meter</string>
     <string name="_0">0 €</string>
     <string name="_100">100 €</string>
+    <string name="name_your_expense">Name your Expense</string>
+    <string name="add">Add</string>
 </resources>

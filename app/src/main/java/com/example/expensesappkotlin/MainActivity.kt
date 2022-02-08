@@ -24,7 +24,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(binding.root) /** for the animation **/
+
+        /** setting the initial value of the views when coming back from the add activity **/
+        binding.root.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+        binding.fab.isVisible = true
+        binding.progressBar.isVisible = true
+        binding.tvZero.isVisible = true
+        binding.tvMaxAmount.isVisible = true
+        binding.spinner.isVisible = true
+        binding.rvExpenses.isVisible = true
+
 
         /** Defining the views **/
         //val fab: FloatingActionButton = findViewById(R.id.fab)

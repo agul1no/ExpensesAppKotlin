@@ -11,7 +11,9 @@
         android:theme="@style/Theme.ExpensesAppKotlin">
         <activity
             android:name=".AddActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".MainActivity"
+            android:label="Add an Expense"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -14,4 +14,9 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="Theme.ExpensesAppKotlin.ProgressbarColor">
+        <item name="colorAccent">?attr/colorPrimary</item>
+    </style>
+
+
 </resources>
