@@ -1,12 +1,18 @@
 package com.example.expensesappkotlin
 
+import android.app.Application
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnimationUtils
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,9 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
 
 private lateinit var binding: ActivityMainBinding
-
-val expenses = ArrayList<ExpenseModel>()
-var expense1 = ExpenseModel(1,"Netto", 8.3,"Comment","Feb/22")
+var itemSelectedOnSpinner = ""
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         /** Defining the views **/
         //val fab: FloatingActionButton = findViewById(R.id.fab)
         val spinner: Spinner = findViewById(R.id.spinner)
-        val rvExpenses: RecyclerView = findViewById(R.id.rvExpenses)
 
         /** Creating and setting Data for the spinner and spinnerAdapter **/
         var spinnerList = creatingDataForTheSpinner()
@@ -69,16 +72,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        expenses.add(expense1)
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                itemSelectedOnSpinner = adapterView?.getItemAtPosition(position).toString()
+                Toast.makeText(binding.spinner.context, "You have selected $itemSelectedOnSpinner", Toast.LENGTH_SHORT).show()
+                binding.rvExpenses.adapter = null
+                setupListOfDataIntoRecyclerView()
+            }
 
-        val adapter = ItemAdapter(this, expenses)
-        rvExpenses.adapter = adapter
-        rvExpenses.layoutManager = LinearLayoutManager(this)
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+
+        }
 
     }
 }
 
-private fun creatingDataForTheSpinner(): MutableList<String?>{
+fun creatingDataForTheSpinner(): MutableList<String?>{
     /** Creating the mutableListOf Month/Year **/
     val calendar = Calendar.getInstance()
     var month = (calendar.get(Calendar.MONTH)) /** January = 0, February = 1 etc... **/
@@ -125,8 +135,37 @@ private fun transformingDateFromIntToString(month: Int, year: Int): String? {
     return "$monthString / $yearString"
 }
 
-private fun readingDataFromSpinnerForDatabase(spinnerInput: String): String{
-    val delimitator = "/"
-    var listSpinnerDataSeparated = spinnerInput.split(delimitator)
-    return "$listSpinnerDataSeparated[0] $listSpinnerDataSeparated[1]"
+private fun setupListOfDataIntoRecyclerView(){
+    if(getItemsList().size > 0){
+        /** set the layout manager which this recycler view will use **/
+        binding.rvExpenses.layoutManager = LinearLayoutManager(binding.rvExpenses.context)
+        /** adapter is initialized and list is passed to the parameters **/
+        val adapter = ItemAdapter(binding.rvExpenses.context, getItemsList())
+        /** adapter instance is set to the recycler view to inflate the item **/
+        binding.rvExpenses.adapter = adapter
+    }else{
+
+    }
+}
+
+fun getItemsList(): ArrayList<ExpenseModel> {
+    val db = MyDataBaseHelper(binding.rvExpenses.context)
+    var itemSelectedOnSpinnerr = readingDataFromSpinnerForDatabase()
+    return db.readDataFromDatabase(itemSelectedOnSpinnerr)
+}
+
+
+fun readingDataFromSpinnerForDatabase(): String{
+    /** Reading the input of the spinner **/
+    binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            itemSelectedOnSpinner = adapterView?.getItemAtPosition(position).toString()
+            //Toast.makeText(binding.spinner.context, "You have selected $itemSelectedOnSpinner", Toast.LENGTH_SHORT).show()
+        }
+
+        override fun onNothingSelected(p0: AdapterView<*>?) {
+        }
+
+    }
+    return "LIKE '%$itemSelectedOnSpinner%'"
 }

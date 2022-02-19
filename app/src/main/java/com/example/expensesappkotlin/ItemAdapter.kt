@@ -27,12 +27,10 @@ class ItemAdapter (val context: Context, val expenses: ArrayList<ExpenseModel>) 
      * called when recyclerView needs a new Link Viewholder of the give type **/
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        //val item = expenses.get(position)
-        //holder.tv_name.text = item
+        val item = expenses.get(position)
 
-        //holder.tv_name.text = expenses[position].toString()
-        holder.tv_name.text = expense1.name
-        holder.tv_amount.text = expense1.amount.toString()
+        holder.tv_name.text = item.name
+        holder.tv_amount.text = item.amount.toString()
 
     }
 
