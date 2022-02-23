@@ -51,7 +51,7 @@ class MyDataBaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NA
         val expenseList : ArrayList<ExpenseModel> = ArrayList()
         val db = this.readableDatabase
         //val itemSelectedOnSpinner = readingDataFromSpinnerForDatabase()
-        val query = "SELECT * FROM $TABLE_NAME WHERE $EXPENSE_DATE $itemSelectedOnSpinner"
+        val query = "SELECT * FROM $TABLE_NAME WHERE $EXPENSE_DATE LIKE '$itemSelectedOnSpinner'"
         var cursor : Cursor? = null
 
         try {
@@ -78,6 +78,16 @@ class MyDataBaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NA
             expenseList.add(expense)
         }
         return expenseList
+    }
+
+    fun deleteExpense(expense: ExpenseModel) : Int{
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(KEY_ID,expense.id)
+        //deleting row
+        val success = db.delete(TABLE_NAME, KEY_ID + "=" + expense.id, null)
+        db.close()
+        return success
     }
 }
 

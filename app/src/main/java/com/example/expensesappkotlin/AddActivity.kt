@@ -30,7 +30,7 @@ class AddActivity : AppCompatActivity() {
         spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 itemSelectedOnSpinner2 = adapterView?.getItemAtPosition(position).toString()
-                Toast.makeText(binding.spinner2.context, "You have selected $itemSelectedOnSpinner2", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(binding.spinner2.context, "You have selected $itemSelectedOnSpinner2", Toast.LENGTH_SHORT).show()
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -58,7 +58,7 @@ class AddActivity : AppCompatActivity() {
 
         if(validName && validAmount){
             val status = db.addExpense(ExpenseModel(0, binding.textEditName.text.toString().trim(), binding.textEditAmount.text.toString().toDouble(),binding.textEditComment.text.toString().trim(),
-                itemSelectedOnSpinner))
+                itemSelectedOnSpinner2))
             if(status > -1){
                 Toast.makeText(this, "Data added successfully", Toast.LENGTH_SHORT).show()
                 binding.textEditName.text?.clear()

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">?attr/colorPrimary</item>
+        
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_money</item>
+        <item name="android:colorForeground">@color/teal_200</item>
+
+        <item name="postSplashScreenTheme">@style/Theme.ExpensesAppKotlin</item>
+    </style>
+</resources>

@@ -12,11 +12,13 @@
         <activity
             android:name=".AddActivity"
             android:exported="true"
+            android:theme="@style/Theme.ExpensesAppKotlin"
             android:parentActivityName=".MainActivity"
             android:label="Add an Expense"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:theme="@style/Theme.ExpensesAppKotlin"
             android:label="@string/MainActivity_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
